@@ -21,15 +21,15 @@ module.exports = (robot) ->
     # Gatekeeper status
     exec 'git rev-parse HEAD && git rev-parse --abbrev-ref HEAD', (err, stdout, stderr) ->
       output = stdout.split('\n')
-      res.send "Gatekeeper: Running at #{output[1]}/#{output[0].slice(0, 7)}"
+      res.send "gatekeeper: Running at #{output[1]}/#{output[0].slice(0, 7)}"
 
     exec 'ssh api "cd ~/api && git rev-parse HEAD && git rev-parse --abbrev-ref HEAD"', (err, stdout, stderr) ->
       output = stdout.split('\n')
-      res.send "API: Running at #{output[1]}/#{output[0].slice(0, 7)}"
+      res.send "api: Running at #{output[1]}/#{output[0].slice(0, 7)}"
 
     exec 'ssh www "cd ~/www && git rev-parse HEAD && git rev-parse --abbrev-ref HEAD"', (err, stdout, stderr) ->
       output = stdout.split('\n')
-      res.send "WWW: Running at #{output[1]}/#{output[0].slice(0, 7)}"
+      res.send "www: Running at #{output[1]}/#{output[0].slice(0, 7)}"
 
   # Start deploy proccess
   robot.hear /deploy (\w+)?(\/?(\w+)?)? to (\w+)/, (res) ->
