@@ -1,0 +1,6 @@
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
+
+# Don't remove this gitignore. It's a hack to keep this empty directory in the repository.
