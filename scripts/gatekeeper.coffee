@@ -7,18 +7,23 @@
 #   Uncomment the ones you want to try and experiment with.
 #
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
+#
+
+exec = require('child_process').exec;
 
 module.exports = (robot) ->
 
   robot.enter (res) ->
     res.send res.random enterReplies
 
+  # Display services status
   robot.hear /status/i, (res) ->
     res.send "So, you want to know the status?"
 
+  # Start deploy proccess
   robot.hear /deploy (\w+)?(\/?(\w+)?)? to (\w+)/, (res) ->
-    repository = res.match[1]
-    branch = res.match[3]
+    repository  = res.match[1]
+    branch      = res.match[3]
     environment = res.match[4]
 
     # There's a slash but no branch was given. Eg: deploy www/ to
@@ -29,6 +34,28 @@ module.exports = (robot) ->
       if not branch?
         branch = "master"
       res.send "Looks like it's a task for the Gatekeeper! Deploying " + repository + "/" + branch + " to " + environment
+
+  # Display managed repositories
+  robot.respond /managed repositories/, (res) ->
+    managedRepositories = robot.brain.get('managedRepositories') or {}
+    count = Object.keys(managedRepositories).length
+
+    if count is 0
+      res.send "Hey, I'm sorry, but you haven't given me any repositories to manage yet!"
+
+  # Tell the bot to start managing a repository
+  robot.respond /manage repository (\w+)\/(\w+) as (\w+)/, (res) ->
+    account    = res.match[1]
+    repository = res.match[2]
+    name       = res.match[3]
+
+    res.send "Okay, I will try to clone " + account + "/" + repository + " as " + name
+
+    exec('ls -la managed_repositories', ((err, stdout, stderr) ->
+      console.log(stdout)
+    ))
+
+
   #
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]
@@ -106,17 +133,17 @@ module.exports = (robot) ->
   #   if res?
   #     res.reply "DOES NOT COMPUTE"
   #
-  # robot.respond /have a soda/i, (res) ->
-  #   # Get number of sodas had (coerced to a number).
-  #   sodasHad = robot.brain.get('totalSodas') * 1 or 0
-  #
-  #   if sodasHad > 4
-  #     res.reply "I'm too fizzy.."
-  #
-  #   else
-  #     res.reply 'Sure!'
-  #
-  #     robot.brain.set 'totalSodas', sodasHad+1
+   robot.respond /have a soda/i, (res) ->
+     # Get number of sodas had (coerced to a number).
+     sodasHad = robot.brain.get('totalSodas') * 1 or 0
+
+     if sodasHad > 4
+       res.reply "I'm too fizzy.."
+
+     else
+       res.reply 'Sure!'
+
+       robot.brain.set 'totalSodas', sodasHad+1
   #
   # robot.respond /sleep it off/i, (res) ->
   #   robot.brain.set 'totalSodas', 0
