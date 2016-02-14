@@ -18,7 +18,8 @@ module.exports = (robot) ->
 
   # Display services status
   robot.hear /status/i, (res) ->
-    res.send "So, you want to know the status?"
+    exec 'git rev-parse HEAD', (err, stdout, stderr) ->
+      res.send "Gatekeeper: Running at #{stdout.slice 0, 7}"
 
   # Start deploy proccess
   robot.hear /deploy (\w+)?(\/?(\w+)?)? to (\w+)/, (res) ->
