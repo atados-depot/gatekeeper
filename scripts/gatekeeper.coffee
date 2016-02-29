@@ -9,11 +9,11 @@ module.exports = (robot) ->
       output = stdout.split('\n')
       res.send "gatekeeper: Running at #{output[1]}/#{output[0].slice(0, 7)}"
 
-    exec 'ssh api "cd ~/api && git rev-parse HEAD && git rev-parse --abbrev-ref HEAD"', (err, stdout, stderr) ->
+    exec 'ssh nv "cd ~/api && git rev-parse HEAD && git rev-parse --abbrev-ref HEAD"', (err, stdout, stderr) ->
       output = stdout.split('\n')
       res.send "api: Running at #{output[1]}/#{output[0].slice(0, 7)}"
 
-    exec 'ssh www "cd ~/www && git rev-parse HEAD && git rev-parse --abbrev-ref HEAD"', (err, stdout, stderr) ->
+    exec 'ssh nv "cd ~/www && git rev-parse HEAD && git rev-parse --abbrev-ref HEAD"', (err, stdout, stderr) ->
       output = stdout.split('\n')
       res.send "www: Running at #{output[1]}/#{output[0].slice(0, 7)}"
 
