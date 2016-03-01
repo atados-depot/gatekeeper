@@ -11,6 +11,10 @@ module.exports = (robot) ->
           res.send "Updating to #{stdout.slice 0, 7}"
           process.exit(1)
 
+  robot.hear /deploy api/, (res) ->
+    res.send "Deploying api..."
+    exec 'cat /home/ubuntu/atados/api/deploy/status', (err, stdout, stderr) ->
+      res.send stdout
 
 
 trimNL = (str) ->
