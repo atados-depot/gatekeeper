@@ -13,7 +13,7 @@ module.exports = (robot) ->
 
   robot.hear /deploy api/, (res) ->
     res.send "Deploying api..."
-    exec 'cat /home/ubuntu/atados/api/deploy/deploy.sh', (err, stdout, stderr) ->
+    exec '/home/ubuntu/atados/api/deploy/deploy.sh', (err, stdout, stderr) ->
       res.send trimNL(stdout)
 
 
