@@ -11,8 +11,8 @@
 
 exec = require('child_process').exec
 
-api_dir = '/home/ubuntu/atados/api'
-api_deploy_dir = '#{api_dir}/deploy'
+api_dir = "/home/ubuntu/atados/api"
+api_deploy_dir = "#{api_dir}/deploy"
 
 module.exports = (robot) ->
   robot.hear /deploy gatekeeper/, (res) ->
