@@ -1,3 +1,13 @@
+# Description:
+#   Basic implementation of gatekeeper
+#
+# Commands:
+#   hubot status - chef: Show server current status
+#
+# Author:
+#   leonardoarroyo
+#
+
 exec = require('child_process').exec
 
 module.exports = (robot) ->
