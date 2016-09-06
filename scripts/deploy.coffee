@@ -32,9 +32,9 @@ module.exports = (robot) ->
     cmd = spawn "ssh", ["homolog", "'#{api_deploy_dir}/api.sh'"]
 
     cmd.stdout.on 'data', (data) ->
-      res.send data
+      res.send data.toString()
     cmd.stderr.on 'data', (data) ->
-      res.send data
+      res.send data.toString()
     cmd.on 'close', (code) ->
       res.send "Deploy finished with code #{code}"
 
