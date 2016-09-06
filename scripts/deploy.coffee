@@ -9,7 +9,9 @@
 #   leonardoarroyo
 #
 
-exec = require('child_process').exec
+child_process = require('child_process')
+exec = child_process.exec
+spawn = child_process.spawn
 
 deploy_dir = "/home/ubuntu/deploy"
 api_deploy_dir = "#{deploy_dir}/api"
@@ -27,13 +29,13 @@ module.exports = (robot) ->
 
   robot.hear /deploy homolog api/, (res) ->
     res.send "Deploying api..."
-    cmd = spawn "ssh homolog \"cd #{api_deploy_dir} && bash #{api_deploy_dir}/api.sh\""
+    cmd = spawn "ssh", ["homolog", "'#{api_deploy_dir}/api.sh'"]
 
-    ls.stdout.on 'data', (data) ->
+    cmd.stdout.on 'data', (data) ->
       res.send data
-    ls.stderr.on 'data', (data) ->
+    cmd.stderr.on 'data', (data) ->
       res.send data
-    ls.on 'close', (code) ->
+    cmd.on 'close', (code) ->
       res.send "Deploy finished with code #{code}"
 
 
