@@ -11,8 +11,8 @@
 
 exec = require('child_process').exec
 
-api_dir = "/home/ubuntu/atados/api"
-api_deploy_dir = "#{api_dir}/deploy"
+deploy_dir = "/home/ubuntu/deploy"
+api_deploy_dir = "#{deploy_dir}/api"
 
 module.exports = (robot) ->
   robot.hear /deploy gatekeeper/, (res) ->
@@ -25,9 +25,9 @@ module.exports = (robot) ->
           res.send "Updating to #{stdout.slice 0, 7}"
           process.exit(1)
 
-  robot.hear /deploy api/, (res) ->
+  robot.hear /deploy homolog api/, (res) ->
     res.send "Deploying api..."
-    exec "ssh nv \"cd #{api_deploy_dir} && bash #{api_deploy_dir}/deploy.sh\"", (err, stdout, stderr) ->
+    exec "ssh homolog \"cd #{api_deploy_dir} && bash #{api_deploy_dir}/api.sh\"", (err, stdout, stderr) ->
       res.send trimNL(stdout)
 
 
