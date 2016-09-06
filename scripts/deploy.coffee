@@ -27,8 +27,14 @@ module.exports = (robot) ->
 
   robot.hear /deploy homolog api/, (res) ->
     res.send "Deploying api..."
-    exec "ssh homolog \"cd #{api_deploy_dir} && bash #{api_deploy_dir}/api.sh\"", (err, stdout, stderr) ->
-      res.send trimNL(stdout)
+    cmd = spawn "ssh homolog \"cd #{api_deploy_dir} && bash #{api_deploy_dir}/api.sh\""
+
+    ls.stdout.on 'data', (data) ->
+      res.send data
+    ls.stderr.on 'data', (data) ->
+      res.send data
+    ls.on 'close', (code) ->
+      res.send "Deploy finished with code #{code}"
 
 
 trimNL = (str) ->
