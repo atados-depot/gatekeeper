@@ -29,10 +29,8 @@ module.exports = (robot) ->
     cmd.stderr.on 'data', (data) ->
       res.send data.toString()
     cmd.on 'close', (code) ->
-      if code is 0
-        res.send "Deploy finished successfully"
-      else
-        res.send "Deploy finished with code #{code}"
+      if code is not 0
+        res.send "Deploy script finished with code #{code}"
 
 
 trimNL = (str) ->
