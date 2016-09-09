@@ -22,7 +22,7 @@ module.exports = (robot) ->
 
   robot.hear /deploy homolog www/, (res) ->
     res.send "Deploying www..."
-    cmd = spawn "ssh", ["homolog", "'#{api_deploy_dir}/www.sh'"]
+    cmd = spawn "ssh", ["homolog", "'#{www_deploy_dir}/www.sh'"]
 
     cmd.stdout.on 'data', (data) ->
       res.send data.toString()
