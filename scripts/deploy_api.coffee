@@ -18,10 +18,19 @@ api_deploy_dir = "#{deploy_dir}/api"
 
 module.exports = (robot) ->
   robot.hear /deploy api/, (res) ->
-    res.send "I don't deploy to production yet."
+    res.send "Deploying production api..."
+    cmd = spawn "ssh", ["prod", "'#{api_deploy_dir}/api.sh'"]
+
+    cmd.stdout.on 'data', (data) ->
+      res.send data.toString()
+    cmd.stderr.on 'data', (data) ->
+      res.send data.toString()
+    cmd.on 'close', (code) ->
+      if code is not 0
+        res.send "Deploy script finished with code #{code}"
 
   robot.hear /deploy homolog api/, (res) ->
-    res.send "Deploying api..."
+    res.send "Deploying homolog api..."
     cmd = spawn "ssh", ["homolog", "'#{api_deploy_dir}/api.sh'"]
 
     cmd.stdout.on 'data', (data) ->

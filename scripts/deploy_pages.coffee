@@ -14,25 +14,12 @@ exec = child_process.exec
 spawn = child_process.spawn
 
 deploy_dir = "/home/ubuntu/deploy"
-www_deploy_dir = "#{deploy_dir}/www"
+pages_deploy_dir = "#{deploy_dir}/static-pages"
 
 module.exports = (robot) ->
-  robot.hear /deploy www/, (res) ->
-    res.send "Deploying production www..."
-    cmd = spawn "ssh", ["prod", "'#{www_deploy_dir}/www.sh'"]
-
-    cmd.stdout.on 'data', (data) ->
-      res.send data.toString()
-    cmd.stderr.on 'data', (data) ->
-      res.send data.toString()
-    cmd.on 'close', (code) ->
-      if code is not 0
-        res.send "Deploy script finished with code #{code}"
-
-
-  robot.hear /deploy homolog www/, (res) ->
-    res.send "Deploying homolog www..."
-    cmd = spawn "ssh", ["homolog", "'#{www_deploy_dir}/www.sh'"]
+  robot.hear /deploy pages/, (res) ->
+    res.send "Deploying pages..."
+    cmd = spawn "ssh", ["prod", "'#{api_deploy_dir}/static-pages.sh'"]
 
     cmd.stdout.on 'data', (data) ->
       res.send data.toString()
