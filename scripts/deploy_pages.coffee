@@ -19,7 +19,7 @@ pages_deploy_dir = "#{deploy_dir}/static-pages"
 module.exports = (robot) ->
   robot.hear /deploy pages/, (res) ->
     res.send "Deploying pages..."
-    cmd = spawn "ssh", ["prod", "'#{api_deploy_dir}/static-pages.sh'"]
+    cmd = spawn "ssh", ["prod", "'#{pages_deploy_dir}/static-pages.sh'"]
 
     cmd.stdout.on 'data', (data) ->
       res.send data.toString()
