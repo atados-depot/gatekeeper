@@ -18,9 +18,34 @@ www_deploy_dir = "#{deploy_dir}/www"
 api_deploy_dir = "#{deploy_dir}/api"
 
 module.exports = (robot) ->
-  robot.hear /deploy gdd www/, (res) ->
+  robot.hear /deploy gdd homolog www/, (res) ->
     res.send "Deploying gdd homolog www..."
-    cmd = spawn "ssh", ["gdd", "'#{www_deploy_dir}/www.sh'"]
+    cmd = spawn "ssh", ["gdd-homolog", "'#{www_deploy_dir}/www.sh'"]
+
+    cmd.stdout.on 'data', (data) ->
+      res.send data.toString()
+    cmd.stderr.on 'data', (data) ->
+      res.send data.toString()
+    cmd.on 'close', (code) ->
+      if code is not 0
+        res.send "Deploy script finished with code #{code}"
+
+
+  robot.hear /deploy gdd homolog api/, (res) ->
+    res.send "Deploying gdd homolog api..."
+    cmd = spawn "ssh", ["gdd-homolog", "'#{api_deploy_dir}/api.sh'"]
+
+    cmd.stdout.on 'data', (data) ->
+      res.send data.toString()
+    cmd.stderr.on 'data', (data) ->
+      res.send data.toString()
+    cmd.on 'close', (code) ->
+      if code is not 0
+        res.send "Deploy script finished with code #{code}"
+
+  robot.hear /deploy gdd www/, (res) ->
+    res.send "Deploying gdd production www..."
+    cmd = spawn "ssh", ["gdd-production", "'#{www_deploy_dir}/www.sh'"]
 
     cmd.stdout.on 'data', (data) ->
       res.send data.toString()
@@ -32,8 +57,8 @@ module.exports = (robot) ->
 
 
   robot.hear /deploy gdd api/, (res) ->
-    res.send "Deploying gdd homolog api..."
-    cmd = spawn "ssh", ["gdd", "'#{api_deploy_dir}/api.sh'"]
+    res.send "Deploying gdd production api..."
+    cmd = spawn "ssh", ["gdd-production", "'#{api_deploy_dir}/api.sh'"]
 
     cmd.stdout.on 'data', (data) ->
       res.send data.toString()
