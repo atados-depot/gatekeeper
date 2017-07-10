@@ -18,7 +18,7 @@ deploy_dir = "/home/cachet/deploy"
 module.exports = (robot) ->
   robot.hear /deploy gpa-status/, (res) ->
     res.send "Deploying gpa-status..."
-    cmd = spawn "ssh", ["cachet", "'#{deploy_dir}/gpa-status/deploy.sh'"]
+    cmd = spawn "ssh", ["gpa-status", "'#{deploy_dir}/gpa-status/deploy.sh'"]
 
     cmd.stdout.on 'data', (data) ->
       res.send data.toString()
