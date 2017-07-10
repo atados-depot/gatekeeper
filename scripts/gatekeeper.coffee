@@ -13,7 +13,7 @@ exec = require('child_process').exec
 module.exports = (robot) ->
 
   # Display services status
-  robot.hear /status/i, (res) ->
+  robot.hear /^status/i, (res) ->
     # Gatekeeper status
     exec 'git rev-parse HEAD && git rev-parse --abbrev-ref HEAD', (err, stdout, stderr) ->
       output = stdout.split('\n')
@@ -29,7 +29,7 @@ module.exports = (robot) ->
 
 
   # Display services status
-  robot.hear /status homolog/i, (res) ->
+  robot.hear /^status homolog/i, (res) ->
     # Gatekeeper status
     res.send "Homolog status"
 
