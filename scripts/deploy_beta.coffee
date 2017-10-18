@@ -20,7 +20,7 @@ api_deploy_dir = "#{deploy_dir}/api/deploy"
 module.exports = (robot) ->
   robot.hear /deploy beta www/, (res) ->
     res.send "Deploying beta atados www..."
-    cmd = spawn "ssh", ["beta-atados", "'#{www_deploy_dir}/deploy.sh'"]
+    cmd = spawn "ssh", ["beta-atados", "bash '#{www_deploy_dir}/deploy.sh'"]
 
     cmd.stdout.on 'data', (data) ->
       res.send data.toString()
@@ -33,7 +33,7 @@ module.exports = (robot) ->
 
   robot.hear /deploy beta api/, (res) ->
     res.send "Deploying beta atados api..."
-    cmd = spawn "ssh", ["beta-atados", "'#{api_deploy_dir}/deploy.sh'"]
+    cmd = spawn "ssh", ["beta-atados", "bash '#{api_deploy_dir}/deploy.sh'"]
 
     cmd.stdout.on 'data', (data) ->
       res.send data.toString()
