@@ -13,7 +13,7 @@ child_process = require('child_process')
 exec = child_process.exec
 spawn = child_process.spawn
 
-deploy_dir = "/home/ubuntu/"
+deploy_dir = "/home/ubuntu"
 www_deploy_dir = "#{deploy_dir}/client/deploy"
 api_deploy_dir = "#{deploy_dir}/api/deploy"
 
